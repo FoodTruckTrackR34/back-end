@@ -1,3 +1,4 @@
+const { select } = require("../../database/dbConfig.js");
 const db = require("../../database/dbConfig.js");
 
 module.exports = {
@@ -44,8 +45,10 @@ function update(id, changes) {
 
 async function remove(id) {
     const deleted = await db("trucks").where("truck_id", id).first()
-    await db("trucks")
+    const hi = await db("trucks")
+        .select("*")
         .where("truck_id", id)
         .del()
+    console.log(hi)
     return deleted
 }

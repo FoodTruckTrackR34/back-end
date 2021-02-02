@@ -78,6 +78,7 @@ router.delete('/:id', tokenRestrict, roleRestrict('operator'), (req, res) => {
             }
         })
         .catch(err => {
+            console.log(err)
             res.status(500).json({ message: 'Failed to delete truck' });
         });
 });
