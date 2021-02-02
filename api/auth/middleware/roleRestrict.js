@@ -1,7 +1,7 @@
-// module.exports = department => (req, res, next) => {
-//     if (req.decodedJwt && req.decodedJwt.department === department) {
-//         next()
-//     } else {
-//         res.status(403).json('You are not an admin')
-//     }
-// }
+module.exports = role => (req, res, next) => {
+    if (req.decodedJwt && req.decodedJwt.role === role) {
+        next()
+    } else {
+        res.status(403).json({ message: `You role is not set to ${role}` })
+    }
+}

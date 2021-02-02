@@ -4,9 +4,7 @@ const cors = require('cors')
 const server = express()
 
 const authRouter = require('./auth/auth-router')
-const dinersRouter = require('./diners/diners-router')
-const operatorsRouter = require('./operators/operators-router')
-const trucksRouter = require('./trucks/trucks-router')
+// const trucksRouter = require('./trucks/trucks-router')
 
 
 
@@ -19,9 +17,7 @@ server.get("/", (req, res) => {
 })
 
 server.use('/api/auth', authRouter)
-server.use('/api/diners', dinersRouter)
-server.use('/api/operators', operatorsRouter)
-server.use('/api/trucks', trucksRouter)
+// server.use('/api/trucks', trucksRouter)
 
 
 module.exports = server

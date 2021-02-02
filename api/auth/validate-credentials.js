@@ -12,13 +12,7 @@ function isValidRegistration(user) {
         && typeof user.password === "string"
         && typeof user.role === "string"
         && typeof user.email === "string") {
-            if (user.role === "diner") {
-                return "diner"
-            } else if (user.role === "operator") {
-                return "operator"
-            } else {
-                return false
-            }
+        return true
     } else {
         return false
     }
@@ -27,24 +21,29 @@ function isValidRegistration(user) {
 function isValidLogin(user) {
     if (user.username 
         && user.password
-        && user.role
-        && user.email
         && typeof user.username === "string"
-        && typeof user.password === "string"
-        && typeof user.role === "string"
-        && typeof user.email === "string") {
-            if (user.role === "diner") {
-                return "diner"
-            } else if (user.role === "operator") {
-                return "operator"
-            } else {
-                return false
-            }
+        && typeof user.password === "string") {
+        return true
     } else {
         return false
     }
 }
 
+            // if (user.role === "diner") {
+            //     return "diner"
+            // } else if (user.role === "operator") {
+            //     return "operator"
+            // } else {
+            //     return false
+            // }
+
+//             // if (user.role === "diner") {
+            //     return "diner"
+            // } else if (user.role === "operator") {
+            //     return "operator"
+            // } else {
+            //     return false
+            // }
 
 // if (user.username 
 //     && user.password
