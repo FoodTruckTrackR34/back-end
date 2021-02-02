@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "server": "nodemon index.js"
+    "server": "nodemon index.js",
+    "migrateh": "heroku run knex migrate:latest -a food-truck-back-end-lambda",
+    "rollbackh": "heroku run knex migrate:rollback -a food-truck-back-end-lambda"
   },
   "engines": {
       "node": "14.15.4",
