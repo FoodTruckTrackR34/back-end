@@ -7,6 +7,8 @@ const roleRestrict = require("../auth/middleware/roleRestrict.js");
 
 const router = express.Router();
 
+// Token restrict everything here except the get /
+
 router.get('/', (req, res) => {
     Truck.find()
         .then(schemes => {
@@ -33,18 +35,19 @@ router.get('/', (req, res) => {
 //     });
 // });
 
-router.post('/', roleRestrict('operator'), (req, res) => {
+router.post('/', tokenRestrict, roleRestrict('operator'), (req, res) => {
     const truckData = req.body;
     Truck.add(truckData)
         .then(truckAdded => {
             res.status(201).json(truckAdded);
         })
         .catch(err => {
+            console.log(err)
             res.status(500).json({ message: 'Failed to add new truck' });
         });
 });
 
-router.put('/:id', roleRestrict('operator'), (req, res) => {
+router.put('/:id', tokenRestrict, roleRestrict('operator'), (req, res) => {
     const { id } = req.params;
     const truckData = req.body;
     Truck.findById(id)
@@ -63,7 +66,7 @@ router.put('/:id', roleRestrict('operator'), (req, res) => {
         });
 });
 
-router.delete('/:id', roleRestrict('operator'), (req, res) => {
+router.delete('/:id', tokenRestrict, roleRestrict('operator'), (req, res) => {
     const { id } = req.params;
     Truck.remove(id)
         .then(deleted => {

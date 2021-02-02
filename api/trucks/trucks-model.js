@@ -31,7 +31,7 @@ async function add(truck) {
 
 function findById(id) {
   return db("trucks")
-    .select("truck_id", "imageOfTruck", "cuisineType", "departureTime", "lat", "lng", "operator_id")
+    .select("truck_id", "imageOfTruck", "cuisineType", "departureTime", "lat", "lng", "user_id")
     .where("user_id", id)
     .first();
 }
