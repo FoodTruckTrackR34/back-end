@@ -49,7 +49,15 @@ router.post("/login", (req, res) => {
             .then(([user]) => {
                 if (user && bcryptjs.compareSync(password, user.password)) {
                     const token = generateToken(user)
-                    res.status(200).json({ message: "Welcome", token });
+                    let decodedToken
+                    jwt.verify(token, jwtSecret, (err, decoded) => {
+                        if (err) {
+                          res.status(401).json('invalid token')
+                        } else {
+                          decodedToken = decoded
+                        }
+                    })
+                    res.status(200).json({ message: "Welcome", token, role: `${decodedToken.role}` });
                 } else {
                     res.status(401).json({ message: "Invalid credentials" });
                 }

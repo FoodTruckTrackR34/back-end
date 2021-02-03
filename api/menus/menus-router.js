@@ -1,6 +1,6 @@
 const express = require('express');
 
-const Truck = require('./trucks-model.js');
+const Menu = require('./menus-model.js');
 
 const tokenRestrict = require("../auth/middleware/tokenRestrict.js");
 const roleRestrict = require("../auth/middleware/roleRestrict.js");
@@ -10,9 +10,9 @@ const router = express.Router();
 // Token restrict everything here, roleRestrict everything except the get /
 
 router.get('/', tokenRestrict, (req, res) => {
-    Truck.find()
-        .then(trucks => {
-            res.status(200).json(trucks);
+    Menu.find()
+        .then(menus => {
+            res.status(200).json(menus);
         })
         .catch(err => {
             res.status(500).json({ message: 'Failed to get schemes' });
@@ -36,10 +36,10 @@ router.get('/', tokenRestrict, (req, res) => {
 // });
 
 router.post('/', tokenRestrict, roleRestrict('operator'), (req, res) => {
-    const truckData = req.body;
-    Truck.add(truckData)
-        .then(truckAdded => {
-            res.status(201).json(truckAdded);
+    const menuData = req.body;
+    Menu.add(menuData)
+        .then(menuAdded => {
+            res.status(201).json(menuAdded);
         })
         .catch(err => {
             console.log(err)
@@ -49,17 +49,17 @@ router.post('/', tokenRestrict, roleRestrict('operator'), (req, res) => {
 
 router.put('/:id', tokenRestrict, roleRestrict('operator'), (req, res) => {
     const { id } = req.params;
-    const truckData = req.body;
-    Truck.findById(id)
-        .then(foundTruck => {
-            if (foundTruck) {
-                return Truck.update(truckData, id);
+    const menuData = req.body;
+    Menu.findById(id)
+        .then(foundMenu => {
+            if (foundMenu) {
+                return Menu.update(menuData, id);
             } else {
                 res.status(404).json({ message: 'Could not find truck with given id.' })
             }
         })
-        .then(updatedTruck => {
-            res.status(200).json(updatedTruck);
+        .then(updatedMenu => {
+            res.status(200).json(updatedMenu);
         })
         .catch(err => {
             res.status(500).json({ message: 'Failed to update truck' });
@@ -68,7 +68,7 @@ router.put('/:id', tokenRestrict, roleRestrict('operator'), (req, res) => {
 
 router.delete('/:id', tokenRestrict, roleRestrict('operator'), (req, res) => {
     const { id } = req.params;
-    Truck.remove(id)
+    Menu.remove(id)
         .then(deleted => {
             if (deleted) {
                 console.log(deleted)
