@@ -9,7 +9,9 @@ const router = express.Router();
 
 // Token restrict everything here, roleRestrict everything except the get /
 
-router.get('/', tokenRestrict, (req, res) => {
+// tokenRestrict,
+
+router.get('/', (req, res) => {
     Truck.find()
         .then(trucks => {
             res.status(200).json(trucks);
