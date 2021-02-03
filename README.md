@@ -5,21 +5,20 @@ baseURL: https://food-truck-back-end-lambda.herokuapp.com
 ## Auth
 
 ### /api/auth/register [POST]
-For registration. Expects an object structured like this:
-
+For registration. Expects an object structured like this:  
 `{
-  username: "",
-  password: "",
-  email: "",
-  role: "",
-}`
+  username: "",  
+  password: "",  
+  email: "",  
+  role: "",  
+}`  
 
-Returns an object like this:
-`{
-  "user_id": 3,
-  "username": "josh2",
-  "role": "diner"
-}`
+Returns an object like this:  
+`{  
+  "user_id": 3,  
+  "username": "josh2",  
+  "role": "diner"  
+}`  
  
 ### /api/auth/login [POST]
  For logging in. Expects
