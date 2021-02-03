@@ -127,7 +127,8 @@ For updating the truck of the given :id. Requires token in Authorization header.
 For deleting the truck of the given :id. Requires token in Authorization header. User must be an operator. Expects no input. Returns,
 `{ message: "Deleted truck with id ${id} from database" }`
 
-Update 2/3/2021, ~6:00 PM: I am not running token and role checks on the backend endpoints, because my frontend team was 
+## Note regarding token and role restrictions as of 2/3/2021, ~6:00 PM: 
+I am not running token and role checks on the backend endpoints, because my frontend team was 
 having trouble getting their axiosWithAuth to send the token returned by the login POST request above. 
 So they are taking care of Authorization by means of private routing — i.e., they are simply setting the token 
 returned by a successful login to localStorage, and then checking for the presence or absence of that token with a 
@@ -135,4 +136,3 @@ returned by a successful login to localStorage, and then checking for the presen
 So, again, at present there are no token or role checks on the back-end, which means that they do not at present 
 need to run axiosWithAuth on the restricted data endpoints; however, it is possible that, if we get the front-end 
 axiosWithAuth working for our team, I will add back in the token and role restrictions on the back end.
-
