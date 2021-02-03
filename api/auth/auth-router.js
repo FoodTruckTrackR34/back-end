@@ -75,7 +75,7 @@ router.post("/login", (req, res) => {
 // :id refers to USER id --- never mind
 // Object structured as
 // { lat: [int], lng: [int], username: "" }
-router.put("/user-location", (req, res) => {
+router.put("/diner-location", (req, res) => {
     console.log(req.body)
     const latLng = req.body;
     if (latLng.lat && 
@@ -98,13 +98,21 @@ router.put("/user-location", (req, res) => {
                     }
                     console.log(updatedUser)
                     if (user) {
-                        return User.update(user.id, updatedUser)
+                        return User.update(user.user_id, updatedUser)
                     } else {
                         res.status(404).json({ message: 'Could not find user with given username.' })
                     }
                 })
-                .then(updatedUserReturned => {
-                    res.status(200).json(updatedUserReturned);
+                .then(updatedUserReturnedId => {
+                    User.findById(updatedUserReturnedId)
+                        .then(updatedUserObject => {
+                            res.status(200).json(updatedUserObject);
+                        })
+                        .catch(error => {
+                            console.log(error)
+                            res.status(403).json({ message: `Either the user id returned from 
+                            User.update is wrong or findById is not working`})
+                        })
                 })
                 .catch(error => {
                     console.log(error)
