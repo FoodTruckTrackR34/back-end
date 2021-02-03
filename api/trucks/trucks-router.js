@@ -49,13 +49,14 @@ router.post('/', tokenRestrict, roleRestrict('operator'), (req, res) => {
         });
 });
 
-router.put('/:id', tokenRestrict, roleRestrict('operator'), (req, res) => {
+// tokenRestrict, roleRestrict('operator'),
+router.put('/:id', (req, res) => {
     const { id } = req.params;
     const truckData = req.body;
     Truck.findById(id)
         .then(foundTruck => {
             if (foundTruck) {
-                return Truck.update(truckData, id);
+                return Truck.update(id, truckData);
             } else {
                 res.status(404).json({ message: 'Could not find truck with given id.' })
             }

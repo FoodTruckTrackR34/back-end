@@ -5,6 +5,7 @@ const server = express()
 
 const authRouter = require('./auth/auth-router')
 const trucksRouter = require('./trucks/trucks-router')
+const menusRouter = require('./menus/menus-router.js')
 
 
 
@@ -18,6 +19,7 @@ server.get("/", (req, res) => {
 
 server.use('/api/auth', authRouter)
 server.use('/api/trucks', trucksRouter)
+server.use('/api/menus', menusRouter)
 
 
 module.exports = server

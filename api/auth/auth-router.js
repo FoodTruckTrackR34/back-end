@@ -72,6 +72,51 @@ router.post("/login", (req, res) => {
     }
 });
 
+// :id refers to USER id --- never mind
+// Object structured as
+// { lat: [int], lng: [int], username: "" }
+router.put("/user-location", (req, res) => {
+    console.log(req.body)
+    const latLng = req.body;
+    if (latLng.lat && 
+        latLng.lng && 
+        latLng.username &&
+        typeof latLng.lat === "number" &&
+        typeof latLng.lng === "number" &&
+        typeof latLng.username === "string" &&
+        latLng.lat >= -90 &&
+        latLng.lat <= 90 &&
+        latLng.lng >= -180 &&
+        latLng.lng <= 180) {
+            User.findBy(latLng.username)
+                .then(([user]) => {
+                    console.log(user)
+                    const updatedUser = { 
+                        ...user, 
+                        lat: latLng.lat,
+                        lng: latLng.lng
+                    }
+                    console.log(updatedUser)
+                    if (user) {
+                        return User.update(user.id, updatedUser)
+                    } else {
+                        res.status(404).json({ message: 'Could not find user with given username.' })
+                    }
+                })
+                .then(updatedUserReturned => {
+                    res.status(200).json(updatedUserReturned);
+                })
+                .catch(error => {
+                    console.log(error)
+                    res.status(500).json({ message: "Failed to update user with lat lng" });
+                });
+    } else {
+        res.status(400).json({
+            message: "Invalid latitude and longitude update",
+        });
+    }
+});
+
 function generateToken(user) {
     const payload = {
         sub: user.id,
