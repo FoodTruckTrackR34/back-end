@@ -4,14 +4,16 @@ baseURL: https://food-truck-back-end-lambda.herokuapp.com
 
 ## Auth
 
-###/api/auth/register [POST]
+### /api/auth/register [POST]
 For registration. Expects an object structured like this:
+
 `{
   username: "",
   password: "",
   email: "",
   role: "",
 }`
+
 Returns an object like this:
 `{
   "user_id": 3,
@@ -19,7 +21,7 @@ Returns an object like this:
   "role": "diner"
 }`
  
-###/api/auth/login [POST]
+### /api/auth/login [POST]
  For logging in. Expects
 `{
   username: "",
@@ -40,7 +42,7 @@ Returns
            }
 }`
 
-###/api/auth/diner-location [PUT]
+### /api/auth/diner-location [PUT]
 For updating/adding diner location. Expects an object structured like this:
 { 
   lat: [int],
@@ -52,7 +54,7 @@ Returns a the complete user object.
 
 ## Trucks
 
-###/api/trucks [GET]
+### /api/trucks [GET]
 For getting an array of all existing food trucks. Requires token in Authorization header. Expects no data as input.
 Returns array of all trucks, structured like this:
 `[
@@ -66,7 +68,7 @@ Returns array of all trucks, structured like this:
     }
 ]`
 
-###/api/trucks [POST]
+### /api/trucks [POST]
 For posting a new truck. Requires token in Authorization header. User must be an operator. Expects
 `{
     imageOfTruck: "[image_url_goes_here]",
@@ -89,7 +91,7 @@ Returns the added truck, e.g.,
 }`
 *Maybe don't mess with departureTime until I figure out exactly how datetimes are supposed to be formatted for this database I'm using.
 
-###/api/trucks/:id [PUT]
+### /api/trucks/:id [PUT]
 For updating the truck of the given :id. Requires token in Authorization header. User must be an operator. Expects (same as POST)
 {
     imageOfTruck: "[image_url_goes_here]",
@@ -100,7 +102,7 @@ For updating the truck of the given :id. Requires token in Authorization header.
     user_id: 1
 }
 
-###/api/trucks/:id [DELETE]
+### /api/trucks/:id [DELETE]
 For deleting the truck of the given :id. Requires token in Authorization header. User must be an operator. Expects no input. Returns,
 `{ message: "Deleted truck with id ${id} from database" }`
 
