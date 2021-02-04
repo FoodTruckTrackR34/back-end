@@ -10,7 +10,7 @@ module.exports = {
 
 function find() {
   return db("users")
-    .select("user_id", "username", "email", "role", "lat", "lng");
+    .select("user_id", "username", "email", "role", "latitude", "longitude");
 }
 
 // function find() {
@@ -32,7 +32,7 @@ async function add(user) {
 
 function findById(id) {
   return db("users")
-    .select("user_id", "username", "email", "role", "lat", "lng")
+    .select("user_id", "username", "email", "role", "latitude", "longitude")
     .where("user_id", id)
     .first();
 }

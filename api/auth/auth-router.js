@@ -66,8 +66,8 @@ router.post("/login", (req, res) => {
                             username: `${user.username}`,
                             email: `${user.email}`,
                             role: `${user.role}`,
-                            lat: `${user.lat}`,
-                            lng: `${user.lng}`
+                            latitude: `${user.latitude}`,
+                            longitude: `${user.longitude}`
                         }
                     });
                 } else {
@@ -87,26 +87,27 @@ router.post("/login", (req, res) => {
 // :id refers to USER id --- never mind
 // Object structured as
 // { lat: [int], lng: [int], username: "" }
+// UPDATE: LATITUDE LONGITUDE NOT LAT LNG
 router.put("/diner-location", (req, res) => {
     console.log(req.body)
     const latLng = req.body;
-    if (latLng.lat && 
-        latLng.lng && 
+    if (latLng.latitude && 
+        latLng.longitude && 
         latLng.username &&
-        typeof latLng.lat === "number" &&
-        typeof latLng.lng === "number" &&
+        typeof latLng.latitude === "number" &&
+        typeof latLng.longitude === "number" &&
         typeof latLng.username === "string" &&
-        latLng.lat >= -90 &&
-        latLng.lat <= 90 &&
-        latLng.lng >= -180 &&
-        latLng.lng <= 180) {
+        latLng.latitude >= -90 &&
+        latLng.latitude <= 90 &&
+        latLng.longitude >= -180 &&
+        latLng.longitude <= 180) {
             User.findBy(latLng.username)
                 .then(([user]) => {
                     console.log(user)
                     const updatedUser = { 
                         ...user, 
-                        lat: latLng.lat,
-                        lng: latLng.lng
+                        latitude: latLng.latitude,
+                        longitude: latLng.longitude
                     }
                     console.log(updatedUser)
                     if (user) {

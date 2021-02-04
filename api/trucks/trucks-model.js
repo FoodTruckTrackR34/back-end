@@ -11,7 +11,7 @@ module.exports = {
 
 function find() {
   return db("trucks")
-    .select("truck_id", "imageOfTruck", "cuisineType", "departureTime", "lat", "lng");
+    .select("truck_id", "imageOfTruck", "cuisineType", "departureTime", "latitude", "longitude");
 }
 
 // function find() {
@@ -32,14 +32,14 @@ async function add(truck) {
 
 function findByTruckId(id) {
     return db("trucks")
-      .select("truck_id", "imageOfTruck", "cuisineType", "departureTime", "lat", "lng", "user_id")
+      .select("truck_id", "imageOfTruck", "cuisineType", "departureTime", "latitude", "longitude", "user_id")
       .where("truck_id", id)
       .first();
   }
 
 function findById(id) {
   return db("trucks")
-    .select("truck_id", "imageOfTruck", "cuisineType", "departureTime", "lat", "lng", "user_id")
+    .select("truck_id", "imageOfTruck", "cuisineType", "departureTime", "latitude", "longitude", "user_id")
     .where("user_id", id)
     .first();
 }

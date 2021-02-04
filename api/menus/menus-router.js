@@ -38,7 +38,7 @@ router.post('/:id', (req, res) => {
     const truck_id = req.params.id;
     const menuData = req.body;
     Menu.add(menuData, truck_id)
-        .then(menuItemAdded => {
+        .then(([menuItemAdded]) => {
             res.status(201).json(menuItemAdded);
         })
         .catch(err => {

@@ -11,13 +11,14 @@ const router = express.Router();
 
 // tokenRestrict,
 
+// tokenRestrict, roleRestrict("operator"),
 router.get('/', (req, res) => {
     Truck.find()
         .then(trucks => {
             res.status(200).json(trucks);
         })
         .catch(err => {
-            res.status(500).json({ message: 'Failed to get schemes' });
+            res.status(500).json({ message: 'Failed to get trucks' });
         });
 });
 
