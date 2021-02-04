@@ -33,7 +33,8 @@ router.get('/:id', (req, res) => {
 });
 
 // id is TRUCK id
-router.post('/:id', tokenRestrict, roleRestrict('operator'), (req, res) => {
+// tokenRestrict, roleRestrict('operator'),
+router.post('/:id', (req, res) => {
     const truck_id = req.params.id;
     const menuData = req.body;
     Menu.add(menuData, truck_id)

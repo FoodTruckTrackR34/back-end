@@ -37,7 +37,8 @@ router.get('/', (req, res) => {
 //     });
 // });
 
-router.post('/', tokenRestrict, roleRestrict('operator'), (req, res) => {
+// tokenRestrict, roleRestrict('operator'),
+router.post('/', (req, res) => {
     const truckData = req.body;
     Truck.add(truckData)
         .then(truckAdded => {
@@ -69,7 +70,8 @@ router.put('/:id', (req, res) => {
         });
 });
 
-router.delete('/:id', tokenRestrict, roleRestrict('operator'), (req, res) => {
+// tokenRestrict, roleRestrict('operator'), 
+router.delete('/:id', (req, res) => {
     const { id } = req.params;
     Truck.remove(id)
         .then(deleted => {

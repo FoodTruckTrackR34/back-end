@@ -27,8 +27,15 @@ function find() {
 
 async function add(truck) {
   const [id] = await db("trucks").insert(truck, "truck_id");
-  return findById(id);
+  return findByTruckId(id);
 }
+
+function findByTruckId(id) {
+    return db("trucks")
+      .select("truck_id", "imageOfTruck", "cuisineType", "departureTime", "lat", "lng", "user_id")
+      .where("truck_id", id)
+      .first();
+  }
 
 function findById(id) {
   return db("trucks")

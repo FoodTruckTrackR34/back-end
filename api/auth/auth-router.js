@@ -57,7 +57,19 @@ router.post("/login", (req, res) => {
                           decodedToken = decoded
                         }
                     })
-                    res.status(200).json({ message: "Welcome", token, role: `${decodedToken.role}` });
+                    res.status(200).json({ 
+                        message: "Welcome", 
+                        token, 
+                        role: `${decodedToken.role}`, 
+                        userData: {
+                            user_id: `${user.user_id}`, 
+                            username: `${user.username}`,
+                            email: `${user.email}`,
+                            role: `${user.role}`,
+                            lat: `${user.lat}`,
+                            lng: `${user.lng}`
+                        }
+                    });
                 } else {
                     res.status(401).json({ message: "Invalid credentials" });
                 }
