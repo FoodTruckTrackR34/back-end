@@ -141,6 +141,7 @@ For getting all menus of all trucks. Requires token in Authorization header. Use
 [
     {
         "truck_id": 3,
+        "truckName": "big truck 2",
         "cuisineType": "this type",
         "itemName": "chicken",
         "itemDescription": "boiled",
@@ -149,6 +150,7 @@ For getting all menus of all trucks. Requires token in Authorization header. Use
     },
     {
         "truck_id": 2,
+        "truckName": "big truck 2",
         "cuisineType": "hi",
         "itemName": "chicken",
         "itemDescription": "fried",
@@ -166,19 +168,21 @@ For getting menus of the truck with truck_id of the given :id parameter. Again, 
 [
     {
         "truck_id": 3,
+        "truckName": "big truck 2",
         "cuisineType": "mexican",
         "itemName": "chicken",
-        "itemDescription": "boiled for lunch",
+        "itemDescription": "boiled",
         "itemPhoto": "www.chickenimages.com",
         "itemPrice": 21
     },
     {
-        "truck_id": 3,
-        "cuisineType": "mexican",
-        "itemName": "chicken",
-        "itemDescription": "fried for dinner",
-        "itemPhoto": "www.chickenimages.com",
-        "itemPrice": 22
+        "truck_id": 2,
+        "truckName": null,
+        "cuisineType": "bangers and mash",
+        "itemName": "bangers and mash",
+        "itemDescription": "more bangers",
+        "itemPhoto": "www.makinbangers.com",
+        "itemPrice": 2
     },
 ]
 ```

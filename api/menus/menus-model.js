@@ -14,14 +14,14 @@ function find() {
   return db("trucks_menuItems as tm")
     .join("trucks as t", "tm.truck_id", "t.truck_id")
     .join("menuItems as m", "tm.menuItem_id", "m.menuItem_id")
-    .select("t.truck_id", "t.cuisineType", "m.itemName", "m.itemDescription", "m.itemPhoto", "m.itemPrice")
+    .select("t.truck_id", "t.truckName", "t.cuisineType", "m.itemName", "m.itemDescription", "m.itemPhoto", "m.itemPrice")
 }
 
 function findByTruckId(truck_id) {
     return db("trucks_menuItems as tm")
       .join("trucks as t", "tm.truck_id", "t.truck_id")
       .join("menuItems as m", "tm.menuItem_id", "m.menuItem_id")
-      .select("t.truck_id", "t.cuisineType", "m.itemName", "m.itemDescription", "m.itemPhoto", "m.itemPrice")
+      .select("t.truck_id", "t.truckName", "t.cuisineType", "m.itemName", "m.itemDescription", "m.itemPhoto", "m.itemPrice")
       .where("t.truck_id", truck_id)
 }
 
@@ -29,7 +29,7 @@ function findByMenuItemId(menuItem_id) {
     return db("trucks_menuItems as tm")
         .join("trucks as t", "tm.truck_id", "t.truck_id")
         .join("menuItems as m", "tm.menuItem_id", "m.menuItem_id")
-        .select("t.truck_id", "t.cuisineType", "m.itemName", "m.itemDescription", "m.itemPhoto", "m.itemPrice")
+        .select("t.truck_id", "t.truckName", "t.cuisineType", "m.itemName", "m.itemDescription", "m.itemPhoto", "m.itemPrice")
         .where("m.menuItem_id", menuItem_id)
 }
 
