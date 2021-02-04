@@ -129,7 +129,7 @@ router.put("/diner-location", (req, res) => {
                 })
                 .catch(error => {
                     console.log(error)
-                    res.status(500).json({ message: "Failed to update user with lat lng" });
+                    res.status(500).json({ message: "Failed to update user with latitude longitude" });
                 });
     } else {
         res.status(400).json({
