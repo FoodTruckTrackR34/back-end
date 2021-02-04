@@ -1,17 +1,71 @@
 const { select } = require("../../database/dbConfig.js");
 const db = require("../../database/dbConfig.js");
 
+// const knexfile = require("../../knexfile.js");
+// const knex = require("knex")(knexfile);
+
 module.exports = {
   add,
   find,
   findById,
   update,
-  remove
+  remove,
+  addRating,
+  findAllTruckRatings,
+  findAvgTruckRatingByTruckId,
+  findTruckRatingByTruckId
 };
 
+function avgRatingByTruckId(id) {
+    return db("truckRatings as tr")
+        .where("truck_id", 3)
+        .avg("rating")
+        .select("*")
+        .groupBy("tr.truckRatings_id")
+}
+
+function findAvgTruckRatingByTruckId(id) {
+    return db("truckRatings")
+        .groupBy("truck_id")
+        .where("truck_id", id)
+        .avg("rating")
+        .select()
+        // .where("truckRatings_id", id)
+}
+
+function findTruckRatingByTruckId(id) {
+    return db("truckRatings")
+        .select()
+        .where("truckRatings_id", id)
+}
+
+function findAllTruckRatings() {
+    return db("truckRatings")
+        .select()
+}
+
+async function addRating(ratingObj) {
+    const [id] = await db("truckRatings").insert(ratingObj, "truckRatings_id");
+    return findTruckRatingByTruckId(id)
+}
+
+
+
 function find() {
-  return db("trucks")
-    .select("truck_id", "truckName", "imageOfTruck", "cuisineType", "departureTime", "latitude", "longitude");
+    // const avgRating
+    return db("trucks as t")
+        // .leftJoin("truckRatings as tr", "t.truck_id", "tr.truck_id")
+        // .columns.raw("avg(rating) as avgRating")
+        // .avg("rating as avgRating")
+        .select()
+        // .select("t.truck_id", 
+        // "truckName", 
+        // "imageOfTruck", 
+        // "cuisineType", 
+        // "departureTime", 
+        // "latitude", 
+        // "longitude", 
+        // "t.user_id");
 }
 
 // function find() {
@@ -32,14 +86,16 @@ async function add(truck) {
 
 function findByTruckId(id) {
     return db("trucks")
-      .select("truck_id", "truckName", "imageOfTruck", "cuisineType", "departureTime", "latitude", "longitude", "user_id")
+    // "truck_id", "truckName", "imageOfTruck", "cuisineType", "departureTime", "latitude", "longitude", "user_id"
+      .select()
       .where("truck_id", id)
       .first();
   }
 
 function findById(id) {
   return db("trucks")
-    .select("truck_id", "truckName", "imageOfTruck", "cuisineType", "departureTime", "latitude", "longitude", "user_id")
+//   "truck_id", "truckName", "imageOfTruck", "cuisineType", "departureTime", "latitude", "longitude", "user_id"
+    .select()
     .where("user_id", id)
     .first();
 }

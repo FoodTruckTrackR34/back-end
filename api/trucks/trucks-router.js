@@ -18,6 +18,7 @@ router.get('/', (req, res) => {
             res.status(200).json(trucks);
         })
         .catch(err => {
+            console.log(err)
             res.status(500).json({ message: 'Failed to get trucks' });
         });
 });
@@ -88,5 +89,46 @@ router.delete('/:id', (req, res) => {
             res.status(500).json({ message: 'Failed to delete truck' });
         });
 });
+
+
+// ****** Truck Ratings ******
+router.post("/add-rating", (req, res) => {
+    const ratingObj = req.body
+    Truck.addRating(ratingObj)
+        .then(ratingObjReturned => {
+            res.status(201).json({ message: `User with id ${ratingObjReturned.user_id} successfully added
+            rating of ${ratingObjReturned.rating} 
+            for truck with id ${ratingObjReturned.truck_id}` })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({ message: 'Failed to add truck rating' });
+        });
+})
+
+router.get("/get-all-truck-ratings", (req, res) => {
+    Truck.findAllTruckRatings()
+        .then(ratings => {
+            res.status(200).json(ratings)
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({ message: 'Failed to get truck ratings' });
+        });
+})
+
+router.get("/get-truck-rating-avg/:id", (req, res) => {
+    const { id } = req.params
+    Truck.findAvgTruckRatingByTruckId(id)
+        .then(([avgRatingReturned]) => {
+            const idAsInt = parseInt(id)
+            const asInt = Math.round(avgRatingReturned.avg)
+            res.status(200).json({ truck_id: idAsInt, avgRating: asInt })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({ message: 'Failed to get avg truck rating' });
+        });
+})
 
 module.exports = router;
