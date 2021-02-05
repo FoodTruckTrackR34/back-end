@@ -327,7 +327,7 @@ Removes the favorite relationship between the user and the truck specified in th
 ```
 
 
-## Note regarding token and role restrictions as of 2/3/2021, ~6:00 PM: 
+## Note regarding token and role restrictions as of 2/3/2021, ~6:00 PM ET: 
 I am not running token and role checks on the backend endpoints, because my frontend team was 
 having trouble getting their axiosWithAuth to send the token returned by the login POST request above. 
 So they are taking care of Authorization by means of private routing — i.e., they are simply setting the token 
@@ -337,7 +337,7 @@ So, again, at present there are no token or role checks on the back-end, which m
 need to run axiosWithAuth on the restricted data endpoints; however, it is possible that, if we get the front-end 
 axiosWithAuth working for our team, I will add back in the token and role restrictions on the back end.
 
-## Notable recent changes and additions, 2/3/2021, ~10:00 PM:
+## Notable recent changes and additions, 2/3/2021, ~10:00 PM ET:
 - Everything now returns and expects `latitude` and `longitude` *not* `lat` and `lng`, as in previous version. 
 
 - Latitude and longitude may now be floats instead of ints.
@@ -346,7 +346,7 @@ axiosWithAuth working for our team, I will add back in the token and role restri
 
 - Menus section added above
 
-## Notable recent changes and additions, 2/4/2021, ~7:15 PM:
+## Notable recent changes and additions, 2/4/2021, ~7:15 PM ET:
 - There is now no longer a unique constraint for the `truckImage` url string
 
 - `departureTime` has been renamed to `departureTimeString` and now accepts a string
@@ -357,3 +357,6 @@ axiosWithAuth working for our team, I will add back in the token and role restri
 
 ## Additions, 2/5/21, ~2:45 AM:
 - Favorite Trucks endpoints added
+
+## Notable recent changes and additions, 2/5/2021, ~6:30 PM ET:
+- Token and role restrictions are now live; disregard the note (2/3/2021, ~6:00 PM ET) above
