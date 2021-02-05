@@ -277,3 +277,5 @@ axiosWithAuth working for our team, I will add back in the token and role restri
 - `departureTime` has been renamed to `departureTimeString` and now accepts a string
 
 - Truck Ratings section added above
+
+- The main trucks get request, `/api/trucks [GET]`, now includes the property `user_id`, which is the user_id of the truck's operator.
