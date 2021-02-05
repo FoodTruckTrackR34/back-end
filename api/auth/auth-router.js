@@ -2,6 +2,7 @@ const bcryptjs = require("bcryptjs");
 const jwt = require('jsonwebtoken')
 const router = require("express").Router();
 const { jwtSecret } = require("../../config/secret.js");
+const roleRestrict = require("./middleware/roleRestrict.js");
 const tokenRestrict = require("./middleware/tokenRestrict.js");
 
 const User = require("./users/users-model.js");
@@ -81,11 +82,9 @@ router.post("/login", (req, res) => {
     }
 });
 
-// :id refers to USER id --- never mind
 // Object structured as
-// { lat: [int], lng: [int], username: "" }
-// UPDATE: LATITUDE LONGITUDE NOT LAT LNG
-router.put("/diner-location", async (req, res) => {
+// { latitude: [float], longitude: [float], username: "" }
+router.put("/diner-location", tokenRestrict, roleRestrict('diner'), async (req, res) => {
     const latLng = req.body;
     if (latLng.latitude && 
         latLng.longitude && 
@@ -112,17 +111,6 @@ router.put("/diner-location", async (req, res) => {
                         res.status(404).json({ message: 'Could not find user with given username.' })
                     }
                 })
-                // .then(updatedUserReturnedId => {
-                //     User.findById(updatedUserReturnedId)
-                //         .then(updatedUserObject => {
-                //             res.status(200).json(updatedUserObject);
-                //         })
-                //         .catch(error => {
-                //             console.log(error)
-                //             res.status(403).json({ message: `Either the user id returned from 
-                //             User.update is wrong or findById is not working`})
-                //         })
-                // })
                 .catch(error => {
                     console.log(error)
                     res.status(500).json({ message: "Failed to update user with latitude longitude" });

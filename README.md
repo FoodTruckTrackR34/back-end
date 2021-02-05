@@ -5,7 +5,7 @@ baseURL: https://food-truck-back-end-lambda.herokuapp.com
 ## Auth
 
 ### /api/auth/register [POST]
-For registration. Expects an object structured like this:  
+For registration. No restrictions. Expects an object structured like this:  
 ```
 {
   username: "",  
@@ -25,7 +25,7 @@ Returns an object like this:
 ```
  
 ### /api/auth/login [POST]
- For logging in. Expects
+ For logging in. No restrictions. Expects
 ```
 {
   username: "",
@@ -50,7 +50,7 @@ Returns
 ```
 
 ### /api/auth/diner-location [PUT]
-For updating/adding diner location. Expects an object structured like this:
+For updating/adding diner location. Requires a token in the Authorization header, and token's role must be `diner`. Expects an object structured like this:
 
 ```
 { 
@@ -66,7 +66,7 @@ Returns a the complete user object.
 ## Trucks
 
 ### /api/trucks [GET]
-For getting an array of all existing food trucks. Requires token in Authorization header. Expects no data as input.
+For getting an array of all existing food trucks. Requires a token in the Authorization header. Expects no data as input.
 Returns array of all trucks, structured like this:
 ```
 [
@@ -85,7 +85,7 @@ Returns array of all trucks, structured like this:
 user_id represents the operator of the truck.
 
 ### /api/trucks [POST]
-For posting a new truck. Requires token in Authorization header. User must be an operator. Expects
+For posting a new truck. Requires a token in the Authorization header, and the token's role must be `operator`. Expects
 ```
 {
     truckName: "",
@@ -113,7 +113,7 @@ Notably `imageOfTruck` must be unique and not null; `cuisineType` must be not nu
 ```
 
 ### /api/trucks/:id [PUT]
-For updating the truck of the given :id. Requires token in Authorization header. User must be an operator. Expects (same as POST)
+For updating the truck of the given :id. Requires a token in the Authorization header, and the token's role must be `operator`. Expects (same as POST)
 
 ```
 {
@@ -128,14 +128,14 @@ For updating the truck of the given :id. Requires token in Authorization header.
 ```
 
 ### /api/trucks/:id [DELETE]
-For deleting the truck of the given :id parameter. Requires token in Authorization header. User must be an operator. Expects no input. Returns,
+For deleting the truck of the given :id parameter. Requires a token in the Authorization header, and the token's role must be `operator`. Expects no input. Returns,
 `{ message: "Deleted truck with id ${id} from database" }`
 
 
 ## Menus
 
 ### /api/menus [GET]
-For getting all menus of all trucks. Requires token in Authorization header. User must be an operator. Expects no input. Returns and array of menus, e.g.,
+For getting all menus of all trucks. Requires a token in the Authorization header. Expects no input. Returns and array of menus, e.g.,
 ```
 [
     {
@@ -161,7 +161,7 @@ For getting all menus of all trucks. Requires token in Authorization header. Use
 There may be multiple menus per truck.
 
 ### /api/menus/:id [GET]
-For getting menus of the truck with truck_id of the given :id parameter. Again, to be clear, :id represents the *truck* id. Returns, e.g.,
+For getting menus of the truck with truck_id of the given :id parameter. Requires a token in the Authorization header. Again, to be clear, :id represents the *truck* id. Returns, e.g.,
 
 ```
 [
@@ -187,10 +187,9 @@ For getting menus of the truck with truck_id of the given :id parameter. Again, 
 ```
 
 ### /api/menus/:id [POST]
-For adding menu to truck with a truck_id of :id. Expects,
+For adding menu to truck with a truck_id of :id. Requires a token in the Authorization header, and the token's role must be `operator`. Expects,
 ```
     {
-        "cuisineType": "food food",
         "itemName": "bread",
         "itemDescription": "bread bread",
         "itemPhoto": "www.breadbread.com",
@@ -216,7 +215,7 @@ Notably, neither itemPrice nor itemName may be null. Returns the menuItem object
 ### Note: it is assumed that rating *scale* will be determined and enforced client-side. That is, as they are currently set up, these endpoints could work for any integer rating scale (i.e., x out of 5, x out of 10, etc.).
 
 ### /api/trucks/add-rating [POST]
-For adding a rating to a truck with a truck_id specified in the request body. Expects,
+For adding a rating to a truck with a truck_id specified in the request body. Requires a token in the Authorization header, and the token's role must be `diner`. Expects,
 ```
 {
     "truck_id": [int],
@@ -227,7 +226,7 @@ For adding a rating to a truck with a truck_id specified in the request body. Ex
 Where user_id is the id of the user submitting the rating. Returns a success message.
 
 ### /api/trucks/get-all-truck-ratings [GET]
-For getting all truck ratings and associated data. Expects no input. Returns an array, like this,
+For getting all truck ratings and associated data. Requires a token in the Authorization header. Expects no input. Returns an array, like this,
 ```
 [
     {
@@ -246,7 +245,7 @@ For getting all truck ratings and associated data. Expects no input. Returns an 
 ```
 
 ### /api/trucks/get-truck-rating-avg [GET]
-For getting the average rating (rounded) of all trucks. Labeled by truck_id. Returns an array, formatted like this,
+For getting the average rating (rounded) of all trucks. Requires a token in the Authorization header. Labeled by truck_id. Returns an array, formatted like this,
 ```
 [
     {
@@ -319,7 +318,7 @@ Where 3 is the user_id of the user who has favorited the the truck with a truck_
 
 
 ### /api/favorites [DELETE]
-Removes the favorite relationship between the user and the truck specified in the request body ("un-favorities" based on truck_id and user_id combination). Expects a request body of the form
+Removes the favorite relationship between the user and the truck specified in the request body ("un-favorites" based on truck_id and user_id combination). Expects a request body of the form
 ```
 {
   user_id: [int],

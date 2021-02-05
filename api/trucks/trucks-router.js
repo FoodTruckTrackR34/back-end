@@ -11,7 +11,7 @@ const router = express.Router();
 
 // tokenRestrict,
 
-// tokenRestrict, roleRestrict("operator"),
+// tokenRestrict
 router.get('/', tokenRestrict, (req, res) => {
     Truck.find()
         .then(trucks => {
@@ -24,7 +24,7 @@ router.get('/', tokenRestrict, (req, res) => {
 });
 
 // tokenRestrict, roleRestrict('operator'),
-router.post('/', (req, res) => {
+router.post('/', tokenRestrict, roleRestrict('operator'), (req, res) => {
     const truckData = req.body;
     Truck.add(truckData)
         .then(truckAdded => {
@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
 });
 
 // tokenRestrict, roleRestrict('operator'),
-router.put('/:id', (req, res) => {
+router.put('/:id', tokenRestrict, roleRestrict('operator'), (req, res) => {
     const { id } = req.params;
     const truckData = req.body;
     Truck.findByTruckId(id)
@@ -57,7 +57,7 @@ router.put('/:id', (req, res) => {
 });
 
 // tokenRestrict, roleRestrict('operator'), 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', tokenRestrict, roleRestrict('operator'), (req, res) => {
     const { id } = req.params;
     Truck.remove(id)
         .then(deleted => {
@@ -75,7 +75,7 @@ router.delete('/:id', (req, res) => {
 
 
 // ****** Truck Ratings ******
-router.post("/add-rating", (req, res) => {
+router.post("/add-rating", tokenRestrict, roleRestrict('diner'), (req, res) => {
     const ratingObj = req.body
     Truck.addRating(ratingObj)
         .then(ratingObjReturned => {
@@ -89,7 +89,7 @@ router.post("/add-rating", (req, res) => {
         });
 })
 
-router.get("/get-all-truck-ratings", (req, res) => {
+router.get("/get-all-truck-ratings", tokenRestrict, (req, res) => {
     Truck.findAllTruckRatings()
         .then(ratings => {
             res.status(200).json(ratings)
@@ -102,7 +102,7 @@ router.get("/get-all-truck-ratings", (req, res) => {
 
 // Id is truck id
 // /:id
-router.get("/get-truck-rating-avg", (req, res) => {
+router.get("/get-truck-rating-avg", tokenRestrict, (req, res) => {
     Truck.findAvgTruckRatingSortByTruckId()
         .then(avgRatingReturned => {
             const toInt = avgRatingReturned.map(obj => {

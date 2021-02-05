@@ -9,7 +9,7 @@ const roleRestrict = require("../auth/middleware/roleRestrict.js");
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', tokenRestrict, (req, res) => {
     Favorite.find()
         .then(allFavs => {
             res.status(200).json(allFavs);
@@ -20,7 +20,8 @@ router.get('/', (req, res) => {
         });
 });
 
-router.get('/:id', (req, res) => {
+// :id is user_id
+router.get('/:id', tokenRestrict, (req, res) => {
     const { id } = req.params
     Favorite.findByUserId(id)
         .then(userFavs => {
@@ -32,7 +33,7 @@ router.get('/:id', (req, res) => {
         });
 });
 
-router.post('/', async (req, res) => {
+router.post('/', tokenRestrict, async (req, res) => {
     const favObj = req.body
     const existsUser = await User.findById(favObj.user_id)
     const existsTruck = await Truck.findByTruckId(favObj.truck_id)
@@ -60,7 +61,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.delete('/', async (req, res) => {
+router.delete('/', tokenRestrict, async (req, res) => {
     const favObj = req.body
     if (!req.body.user_id || !req.body.truck_id){
         res.status(403).json({ message: "Truck favorite object must include truck_id and user_id" })

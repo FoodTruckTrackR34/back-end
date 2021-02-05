@@ -7,7 +7,7 @@ const roleRestrict = require("../auth/middleware/roleRestrict.js");
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', tokenRestrict, (req, res) => {
     Menu.find()
         .then(menus => {
             res.status(200).json(menus);
@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 });
 
 // id is TRUCK id
-router.get('/:id', (req, res) => {
+router.get('/:id', tokenRestrict, (req, res) => {
     const { id } = req.params
     Menu.findByTruckId(id)
         .then(menu => {
@@ -30,8 +30,7 @@ router.get('/:id', (req, res) => {
 });
 
 // id is TRUCK id
-// tokenRestrict, roleRestrict('operator'),
-router.post('/:id', (req, res) => {
+router.post('/:id', tokenRestrict, roleRestrict('operator'), (req, res) => {
     const truck_id = req.params.id;
     const menuData = req.body;
     Menu.add(menuData, truck_id)
