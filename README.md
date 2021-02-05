@@ -1,6 +1,8 @@
 # Food Truck Back-End endpoints
 
-baseURL: https://food-truck-back-end-lambda.herokuapp.com
+Back-end baseURL: https://food-truck-back-end-lambda.herokuapp.com
+Deployed web app: 
+https://front-end-1-forked-by-josh.vercel.app/
 
 ## Auth
 
@@ -327,7 +329,8 @@ Removes the favorite relationship between the user and the truck specified in th
 ```
 
 
-## Note regarding token and role restrictions as of 2/3/2021, ~6:00 PM ET: 
+## Note regarding token and role restrictions as of 2/3/2021, ~6:00 PM ET:
+### Disregard this note. See note from 2/5/2021, ~6:30 PM ET, below.
 I am not running token and role checks on the backend endpoints, because my frontend team was 
 having trouble getting their axiosWithAuth to send the token returned by the login POST request above. 
 So they are taking care of Authorization by means of private routing — i.e., they are simply setting the token 
