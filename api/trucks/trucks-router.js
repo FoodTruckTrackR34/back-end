@@ -123,12 +123,21 @@ router.get("/get-truck-rating-avg", (req, res) => {
     Truck.findAvgTruckRatingSortByTruckId()
         .then(avgRatingReturned => {
             // ([avgRatingReturned])
-            console.log(avgRatingReturned)
+            // console.log(avgRatingReturned)
             const toInt = avgRatingReturned.map(obj => {
                 const avgAsInt = Math.round(obj.avg)
                 return {...obj, avg: avgAsInt}
             });
-            res.status(200).json(toInt)
+            const withAvgRatingNotAvg = toInt.map(obj => {
+                return {
+                  avgRating: obj.avg,
+                  truck_id: obj.truck_id
+                };
+            });
+            res.status(200).json(withAvgRatingNotAvg)
+            // const idAsInt = parseInt(id)
+            // const asInt = Math.round(avgRatingReturned.avg)
+            // res.status(200).json({ truck_id: idAsInt, avgRating: asInt })
         })
         .catch(err => {
             console.log(err)
