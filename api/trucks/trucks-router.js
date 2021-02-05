@@ -12,7 +12,7 @@ const router = express.Router();
 // tokenRestrict,
 
 // tokenRestrict, roleRestrict("operator"),
-router.get('/', (req, res) => {
+router.get('/', tokenRestrict, (req, res) => {
     Truck.find()
         .then(trucks => {
             res.status(200).json(trucks);
