@@ -56,18 +56,18 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     const { id } = req.params;
     const truckData = req.body;
-    Truck.findById(id)
-        .then(foundTruck => {
+    Truck.findByTruckId(id)
+        .then(async (foundTruck) => {
             if (foundTruck) {
-                return Truck.update(id, truckData);
+                const updated = await Truck.update(id, truckData);
+                const updatedIndeed = await Truck.findByTruckId(id)
+                res.status(200).json(updatedIndeed)
             } else {
                 res.status(404).json({ message: 'Could not find truck with given id.' })
             }
         })
-        .then(updatedTruck => {
-            res.status(200).json(updatedTruck);
-        })
         .catch(err => {
+            console.log(err)
             res.status(500).json({ message: 'Failed to update truck' });
         });
 });

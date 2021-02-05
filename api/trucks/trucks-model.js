@@ -7,7 +7,8 @@ const db = require("../../database/dbConfig.js");
 module.exports = {
   add,
   find,
-  findById,
+  findByUserId,
+  findByTruckId,
   update,
   remove,
   addRating,
@@ -85,15 +86,21 @@ async function add(truck) {
   return findByTruckId(id);
 }
 
-function findByTruckId(id) {
+async function findByTruckId(id) {
+    // const x = await db("trucks")
+    //   .select()
+    //   .where("truck_id", id)
+    //   .first()
+    // //   console.log(x)
+    //   return x
+        // "truck_id", "truckName", "imageOfTruck", "cuisineType", "departureTime", "latitude", "longitude", "user_id"
     return db("trucks")
-    // "truck_id", "truckName", "imageOfTruck", "cuisineType", "departureTime", "latitude", "longitude", "user_id"
       .select()
       .where("truck_id", id)
       .first();
   }
 
-function findById(id) {
+function findByUserId(id) {
   return db("trucks")
 //   "truck_id", "truckName", "imageOfTruck", "cuisineType", "departureTime", "latitude", "longitude", "user_id"
     .select()
