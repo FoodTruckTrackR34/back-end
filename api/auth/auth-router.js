@@ -88,8 +88,7 @@ router.post("/login", (req, res) => {
 // Object structured as
 // { lat: [int], lng: [int], username: "" }
 // UPDATE: LATITUDE LONGITUDE NOT LAT LNG
-router.put("/diner-location", (req, res) => {
-    console.log(req.body)
+router.put("/diner-location", async (req, res) => {
     const latLng = req.body;
     if (latLng.latitude && 
         latLng.longitude && 
@@ -102,31 +101,31 @@ router.put("/diner-location", (req, res) => {
         latLng.longitude >= -180 &&
         latLng.longitude <= 180) {
             User.findBy(latLng.username)
-                .then(([user]) => {
-                    console.log(user)
+                .then(async ([user]) => {
                     const updatedUser = { 
                         ...user, 
                         latitude: latLng.latitude,
                         longitude: latLng.longitude
                     }
-                    console.log(updatedUser)
                     if (user) {
-                        return User.update(user.user_id, updatedUser)
+                        await User.update(user.user_id, updatedUser)
+                        const [updatedUser2] = await User.findByNoPass(latLng.username)
+                        res.status(200).json(updatedUser2)
                     } else {
                         res.status(404).json({ message: 'Could not find user with given username.' })
                     }
                 })
-                .then(updatedUserReturnedId => {
-                    User.findById(updatedUserReturnedId)
-                        .then(updatedUserObject => {
-                            res.status(200).json(updatedUserObject);
-                        })
-                        .catch(error => {
-                            console.log(error)
-                            res.status(403).json({ message: `Either the user id returned from 
-                            User.update is wrong or findById is not working`})
-                        })
-                })
+                // .then(updatedUserReturnedId => {
+                //     User.findById(updatedUserReturnedId)
+                //         .then(updatedUserObject => {
+                //             res.status(200).json(updatedUserObject);
+                //         })
+                //         .catch(error => {
+                //             console.log(error)
+                //             res.status(403).json({ message: `Either the user id returned from 
+                //             User.update is wrong or findById is not working`})
+                //         })
+                // })
                 .catch(error => {
                     console.log(error)
                     res.status(500).json({ message: "Failed to update user with latitude longitude" });

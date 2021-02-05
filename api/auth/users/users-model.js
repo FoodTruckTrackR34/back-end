@@ -5,7 +5,8 @@ module.exports = {
   find,
   findBy,
   findById,
-  update
+  update,
+  findByNoPass
 };
 
 function find() {
@@ -13,10 +14,11 @@ function find() {
     .select("user_id", "username", "email", "role", "latitude", "longitude");
 }
 
-// function find() {
-//   return db("users")
-//     .select("user_id", "username", "role", "email", "lat", "lng");
-// }
+function findByNoPass(username) {
+  return db("users")
+    .select("user_id", "username", "email", "role", "latitude", "longitude")
+    .where("username", username)
+}
 
 function findBy(username) {
   return db("users")
