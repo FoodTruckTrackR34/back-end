@@ -75,7 +75,7 @@ Returns array of all trucks, structured like this:
         truckName: "Good Food",
         imageOfTruck: "www.truckimages.com",
         cuisineType: "hi",
-        departureTime: null,
+        departureTimeString: "2:00 PM",
         latitude: 1.323,
         longitude: 2.2323323,
         user_id: 2
@@ -91,7 +91,7 @@ For posting a new truck. Requires token in Authorization header. User must be an
     truckName: "",
     imageOfTruck: "[image_url_goes_here]",
     cuisineType: "",
-    departureTime: "[must_be_a_datetime_datatype*]",
+    departureTimeString: "[must_be_a_string]",
     latitude: [coordinate_system_float_latitude],
     longitude: [coordinate_system_float_longitude],
     user_id: 1
@@ -105,13 +105,12 @@ Notably `imageOfTruck` must be unique and not null; `cuisineType` must be not nu
     truckName: "big truck 1"
     imageOfTruck: "www.truckimages3.com",
     cuisineType: "food",
-    departureTime: null,
+    departureTimeString: null,
     latitude: 1.938474,
     longitude: 2.003283,
     user_id: 1
 }
 ```
-*Maybe don't mess with departureTime until I figure out exactly how datetimes are supposed to be formatted for this database I'm using.
 
 ### /api/trucks/:id [PUT]
 For updating the truck of the given :id. Requires token in Authorization header. User must be an operator. Expects (same as POST)
@@ -121,7 +120,7 @@ For updating the truck of the given :id. Requires token in Authorization header.
     imageOfTruck: "[image_url_goes_here]",
     truckName: "",
     cuisineType: "",
-    departureTime: "[must_be_a_datetime_datatype]",
+    departureTimeString: "[must_be_a_string]",
     latitude: [coordinate_system_float_latitude],
     longitude: [coordinate_system_float_longitude],
     user_id: 1
@@ -212,6 +211,47 @@ Notably, neither itemPrice nor itemName may be null. Returns the menuItem object
 ```
 
 
+## Truck Ratings
+
+### /api/trucks/add-rating [POST]
+For adding a rating to a truck with a truck_id specified in the request body. Expects,
+```
+{
+    "truck_id": [int],
+    "user_id": [int],
+    "rating": [int]
+}
+```
+Where user_id is the id of the user submitting the rating. Returns a success message.
+
+### /api/trucks/get-all-truck-ratings [GET]
+For getting all truck ratings and associated data. Expects no input. Returns an array, like this,
+```
+[
+    {
+        "truckRatings_id": 3,
+        "rating": 8,
+        "truck_id": 3,
+        "user_id": 1
+    },
+    {
+        "truckRatings_id": 4,
+        "rating": 6,
+        "truck_id": 3,
+        "user_id": 3
+    },
+]
+```
+
+### /api/trucks/get-truck-rating-avg/:id [GET]
+For getting the average rating (rounded) of a truck with a truck_id equal to the given :id parameter. Returns
+```
+{
+    "truck_id": [int],
+    "avgRating": [int]
+}
+```
+
 ## Note regarding token and role restrictions as of 2/3/2021, ~6:00 PM: 
 I am not running token and role checks on the backend endpoints, because my frontend team was 
 having trouble getting their axiosWithAuth to send the token returned by the login POST request above. 
@@ -229,4 +269,11 @@ axiosWithAuth working for our team, I will add back in the token and role restri
 
 - `truckName` is now a property of all trucks, but it may be null, to preserve the integrity of existing data.
 
-- menus section added above
+- Menus section added above
+
+## Notable recent changes and additions, 2/4/2021, ~7:15 PM:
+- There is now no longer a unique constraint for the `truckImage` url string
+
+- `departureTime` has been renamed to `departureTimeString` and now accepts a string
+
+- Truck Ratings section added above
