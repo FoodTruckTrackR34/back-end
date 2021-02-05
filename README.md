@@ -261,6 +261,73 @@ For getting the average rating (rounded) of all trucks. Labeled by truck_id. Ret
 ```
 with both avgRating and truck_id being integers.
 
+
+## Favorite Trucks
+
+### /api/favorites [GET]
+For getting all user-truck favorite combinations. Returns an array, like this,
+```
+[
+    {
+        "favorites_id": 12,
+        "user_id": 3,
+        "truckName": "truck with a name",
+        "latitude": 4.23,
+        "longitude": 6.633222233
+    },
+    {
+        "favorites_id": 3,
+        "user_id": 1,
+        "truckName": "another truck",
+        "latitude": 80.2333,
+        "longitude": 29.622222333
+    }
+]
+```
+
+### /api/favorites/:id [GET]
+For getting the favorite trucks of user with user_id equal to the given :id parameter. Returns an array, like this,
+```
+[
+    {
+        "favorites_id": 9,
+        "user_id": 3,
+        "truckName": null,
+        "latitude": 2.2,
+        "longitude": 6.6
+    },
+    {
+        "favorites_id": 11,
+        "user_id": 3,
+        "truckName": "hi",
+        "latitude": 2.4,
+        "longitude": 6.2
+    },
+]
+```
+This would be for the endpoint `/api/favorites/3`, i.e., for a user_id of 3.
+
+### /api/favorites [POST]
+For adding new truck to user's favorites. Expects an object like this, in req.body,
+```
+{
+    "user_id": 3,
+    "truck_id": 6
+}
+```
+Where 3 is the user_id of the user who has favorited the the truck with a truck_id of 6. A given combination of user_id and truck_id may occur only once in the table. If a duplicate is being submitted the request response should be a 403.
+
+
+### /api/favorites [DELETE]
+Removes the favorite relationship between the user and the truck specified in the request body ("un-favorities" based on truck_id and user_id combination). Expects a request body of the form
+```
+{
+  user_id: [int],
+  truck_id: [int]
+}
+```
+
+
 ## Note regarding token and role restrictions as of 2/3/2021, ~6:00 PM: 
 I am not running token and role checks on the backend endpoints, because my frontend team was 
 having trouble getting their axiosWithAuth to send the token returned by the login POST request above. 
@@ -288,3 +355,6 @@ axiosWithAuth working for our team, I will add back in the token and role restri
 - Truck Ratings section added above
 
 - The main trucks get request, `/api/trucks [GET]`, now includes the property `user_id`, which is the user_id of the truck's operator.
+
+## Additions, 2/5/21, ~2:45 AM:
+- Favorite Trucks endpoints added

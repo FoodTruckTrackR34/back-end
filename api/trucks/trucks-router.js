@@ -23,22 +23,6 @@ router.get('/', (req, res) => {
         });
 });
 
-// router.get('/:id', (req, res) => {
-//   const { id } = req.params;
-
-//   Truck.findById(id)
-//     .then(scheme => {
-//       if (scheme) {
-//         res.json(scheme);
-//       } else {
-//         res.status(404).json({ message: 'Could not find scheme with given id.' })
-//       }
-//     })
-//     .catch(err => {
-//       res.status(500).json({ message: 'Failed to get schemes' });
-//     });
-// });
-
 // tokenRestrict, roleRestrict('operator'),
 router.post('/', (req, res) => {
     const truckData = req.body;
@@ -78,7 +62,6 @@ router.delete('/:id', (req, res) => {
     Truck.remove(id)
         .then(deleted => {
             if (deleted) {
-                console.log(deleted)
                 res.status(200).json({ message: `Deleted truck with id ${id} from database` });
             } else {
                 res.status(404).json({ message: 'Could not find truck with given id' });
@@ -122,8 +105,6 @@ router.get("/get-all-truck-ratings", (req, res) => {
 router.get("/get-truck-rating-avg", (req, res) => {
     Truck.findAvgTruckRatingSortByTruckId()
         .then(avgRatingReturned => {
-            // ([avgRatingReturned])
-            // console.log(avgRatingReturned)
             const toInt = avgRatingReturned.map(obj => {
                 const avgAsInt = Math.round(obj.avg)
                 return {...obj, avg: avgAsInt}
@@ -135,9 +116,6 @@ router.get("/get-truck-rating-avg", (req, res) => {
                 };
             });
             res.status(200).json(withAvgRatingNotAvg)
-            // const idAsInt = parseInt(id)
-            // const asInt = Math.round(avgRatingReturned.avg)
-            // res.status(200).json({ truck_id: idAsInt, avgRating: asInt })
         })
         .catch(err => {
             console.log(err)

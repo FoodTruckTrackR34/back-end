@@ -4,13 +4,10 @@ const router = require("express").Router();
 const { jwtSecret } = require("../../config/secret.js");
 const tokenRestrict = require("./middleware/tokenRestrict.js");
 
-// const Diner = require("./diners/diners-model.js");
-// const Operator = require("./operators/operators-model.js");
 const User = require("./users/users-model.js");
 
 const { isValidRegistration, isValidLogin } = require("./validate-credentials.js");
 
-// Remove this before deployment:
 router.get("/users", tokenRestrict, (req, res) => {
     User.find()
       .then(users => {

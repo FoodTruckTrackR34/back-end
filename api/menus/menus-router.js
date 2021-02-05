@@ -7,9 +7,6 @@ const roleRestrict = require("../auth/middleware/roleRestrict.js");
 
 const router = express.Router();
 
-// Token restrict everything here, roleRestrict everything except the get /
-
-// tokenRestrict
 router.get('/', (req, res) => {
     Menu.find()
         .then(menus => {

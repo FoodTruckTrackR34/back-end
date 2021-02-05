@@ -8,8 +8,6 @@ const trucksRouter = require('./trucks/trucks-router')
 const menusRouter = require('./menus/menus-router.js')
 const favoritesRouter = require('./favorites/favorites-router.js')
 
-
-
 server.use(express.json())
 server.use(helmet())
 server.use(cors())

@@ -1,9 +1,6 @@
 const { select } = require("../../database/dbConfig.js");
 const db = require("../../database/dbConfig.js");
 
-// const knexfile = require("../../knexfile.js");
-// const knex = require("knex")(knexfile);
-
 module.exports = {
   add,
   find,
@@ -28,11 +25,8 @@ function avgRatingByTruckId(id) {
 function findAvgTruckRatingSortByTruckId() {
     return db("truckRatings")
         .groupBy("truck_id")
-        // id
-        // .where("truck_id", id)
         .avg("rating")
         .select("truck_id")
-        // .where("truckRatings_id", id)
 }
 
 function findTruckRatingByTruckId(id) {
@@ -51,35 +45,10 @@ async function addRating(ratingObj) {
     return findTruckRatingByTruckId(id)
 }
 
-
-
 function find() {
-    // const avgRating
-    return db("trucks as t")
-        // .leftJoin("truckRatings as tr", "t.truck_id", "tr.truck_id")
-        // .columns.raw("avg(rating) as avgRating")
-        // .avg("rating as avgRating")
+    return db("trucks")
         .select()
-        // .select("t.truck_id", 
-        // "truckName", 
-        // "imageOfTruck", 
-        // "cuisineType", 
-        // "departureTime", 
-        // "latitude", 
-        // "longitude", 
-        // "t.user_id");
 }
-
-// function find() {
-//   return db("users")
-//     .select("user_id", "username", "role", "email", "lat", "lng");
-// }
-
-// function findBy(username) {
-//   return db("users")
-//     .select("user_id", "username", "password", "role")
-//     .where("username", username);
-// }
 
 async function add(truck) {
   const [id] = await db("trucks").insert(truck, "truck_id");
@@ -87,13 +56,6 @@ async function add(truck) {
 }
 
 async function findByTruckId(id) {
-    // const x = await db("trucks")
-    //   .select()
-    //   .where("truck_id", id)
-    //   .first()
-    // //   console.log(x)
-    //   return x
-        // "truck_id", "truckName", "imageOfTruck", "cuisineType", "departureTime", "latitude", "longitude", "user_id"
     return db("trucks")
       .select()
       .where("truck_id", id)
@@ -102,7 +64,6 @@ async function findByTruckId(id) {
 
 function findByUserId(id) {
   return db("trucks")
-//   "truck_id", "truckName", "imageOfTruck", "cuisineType", "departureTime", "latitude", "longitude", "user_id"
     .select()
     .where("user_id", id)
     .first();
@@ -116,10 +77,9 @@ function update(id, changes) {
 
 async function remove(id) {
     const deleted = await db("trucks").where("truck_id", id).first()
-    const hi = await db("trucks")
+    await db("trucks")
         .select("*")
         .where("truck_id", id)
         .del()
-    console.log(hi)
     return deleted
 }

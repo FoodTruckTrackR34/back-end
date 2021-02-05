@@ -6,11 +6,8 @@ const Truck = require("../trucks/trucks-model.js")
 
 const tokenRestrict = require("../auth/middleware/tokenRestrict.js");
 const roleRestrict = require("../auth/middleware/roleRestrict.js");
-const dbConfig = require('../../database/dbConfig.js');
 
 const router = express.Router();
-
-// Token restrict everything here, roleRestrict everything except the get /
 
 router.get('/', (req, res) => {
     Favorite.find()
@@ -39,12 +36,18 @@ router.post('/', async (req, res) => {
     const favObj = req.body
     const existsUser = await User.findById(favObj.user_id)
     const existsTruck = await Truck.findByTruckId(favObj.truck_id)
+    const truckIdInFavs = await Favorite.findByTruckId(favObj.truck_id)
+    const hasUserAndTruck = truckIdInFavs.filter(obj => {
+        return obj.user_id === favObj.user_id
+    })
     if (!req.body.user_id || !req.body.truck_id){
         res.status(403).json({ message: "truck favorite object must include truck_id and user_id" })
     } else if (!existsUser){
         res.status(404).json({ message: `User with id ${favObj.user_id} not found` })
     } else if (!existsTruck){
         res.status(404).json({ message: `Truck with id ${favObj.truck_id} not found` })
+    } else if (hasUserAndTruck.length > 0) {
+        res.status(403).json({ message: "Request body is likely a duplicate of an entry in the database" })
     } else {
         Favorite.add(favObj)
             .then(([newFav]) => {
@@ -53,6 +56,26 @@ router.post('/', async (req, res) => {
             .catch(err => {
                 console.log(err)
                 res.status(500).json({ message: 'Failed to post new favorite' });
+            });
+    }
+});
+
+router.delete('/', async (req, res) => {
+    const favObj = req.body
+    if (!req.body.user_id || !req.body.truck_id){
+        res.status(403).json({ message: "Truck favorite object must include truck_id and user_id" })
+    } else {
+        Favorite.remove(favObj)
+            .then(deleted => {
+                if (deleted) {
+                    res.status(200).json({ message: `Un-favorited successfully` });
+                } else {
+                    res.status(404).json({ message: 'Could not find user_id and truck_id combination in favorites' });
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({ message: 'Failed to un-favorite' });
             });
     }
 });
