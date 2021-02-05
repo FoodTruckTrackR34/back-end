@@ -213,6 +213,8 @@ Notably, neither itemPrice nor itemName may be null. Returns the menuItem object
 
 ## Truck Ratings
 
+### Note: it is assumed that rating *scale* will be determined and enforced client-side. That is, as they are currently set up, these endpoints could work for any integer rating scale (i.e., x out of 5, x out of 10, etc.).
+
 ### /api/trucks/add-rating [POST]
 For adding a rating to a truck with a truck_id specified in the request body. Expects,
 ```
@@ -243,14 +245,21 @@ For getting all truck ratings and associated data. Expects no input. Returns an 
 ]
 ```
 
-### /api/trucks/get-truck-rating-avg/:id [GET]
-For getting the average rating (rounded) of a truck with a truck_id equal to the given :id parameter. Returns
+### /api/trucks/get-truck-rating-avg [GET]
+For getting the average rating (rounded) of all trucks. Labeled by truck_id. Returns an array, formatted like this,
 ```
-{
-    "truck_id": [int],
-    "avgRating": [int]
-}
+[
+    {
+        "avgRating": 7,
+        "truck_id": 3
+    },
+    {
+        "avgRating": 3,
+        "truck_id": 6
+    }
+]
 ```
+with both avgRating and truck_id being integers.
 
 ## Note regarding token and role restrictions as of 2/3/2021, ~6:00 PM: 
 I am not running token and role checks on the backend endpoints, because my frontend team was 
