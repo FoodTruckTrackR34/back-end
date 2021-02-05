@@ -12,7 +12,7 @@ module.exports = {
   remove,
   addRating,
   findAllTruckRatings,
-  findAvgTruckRatingByTruckId,
+  findAvgTruckRatingSortByTruckId,
   findTruckRatingByTruckId
 };
 
@@ -24,12 +24,13 @@ function avgRatingByTruckId(id) {
         .groupBy("tr.truckRatings_id")
 }
 
-function findAvgTruckRatingByTruckId(id) {
+function findAvgTruckRatingSortByTruckId() {
     return db("truckRatings")
         .groupBy("truck_id")
-        .where("truck_id", id)
+        // id
+        // .where("truck_id", id)
         .avg("rating")
-        .select()
+        .select("truck_id")
         // .where("truckRatings_id", id)
 }
 

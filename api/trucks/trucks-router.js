@@ -117,13 +117,18 @@ router.get("/get-all-truck-ratings", (req, res) => {
         });
 })
 
-router.get("/get-truck-rating-avg/:id", (req, res) => {
-    const { id } = req.params
-    Truck.findAvgTruckRatingByTruckId(id)
-        .then(([avgRatingReturned]) => {
-            const idAsInt = parseInt(id)
-            const asInt = Math.round(avgRatingReturned.avg)
-            res.status(200).json({ truck_id: idAsInt, avgRating: asInt })
+// Id is truck id
+// /:id
+router.get("/get-truck-rating-avg", (req, res) => {
+    Truck.findAvgTruckRatingSortByTruckId()
+        .then(avgRatingReturned => {
+            // ([avgRatingReturned])
+            console.log(avgRatingReturned)
+            const toInt = avgRatingReturned.map(obj => {
+                const avgAsInt = Math.round(obj.avg)
+                return {...obj, avg: avgAsInt}
+            });
+            res.status(200).json(toInt)
         })
         .catch(err => {
             console.log(err)
