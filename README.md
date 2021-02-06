@@ -11,19 +11,19 @@ https://front-end-1-forked-by-josh.vercel.app/
 For registration. No restrictions. Expects an object structured like this:  
 ```
 {
-  username: "",  
-  password: "",  
-  email: "",  
-  role: "",  
+  username: "josh2",  
+  password: "esvewrerg",  
+  email: "abc@123.com",  
+  role: "diner",  
 }
 ```  
 
 Returns an object like this:  
 ```
 {  
-  "user_id": 3,  
-  "username": "josh2",  
-  "role": "diner"  
+  user_id: 3,  
+  username: "josh2",  
+  role: "diner"  
 }
 ```
  
